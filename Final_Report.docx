@@ -1,0 +1,47 @@
+# Sentiment Analysis of Employee Emails: Final Report
+
+## 1. Introduction
+This report documents the complete workflow for analyzing employee sentiment from email data, including data cleaning, exploratory data analysis (EDA), sentiment scoring, employee ranking, flight risk identification, and predictive modeling. The approach is designed to be reproducible and interpretable, with all code and results available in the accompanying Jupyter notebook and supporting scripts.
+
+## 2. Approach and Methodology
+- **Data Collection & Cleaning:** Raw email data was loaded and cleaned, with missing values handled and dates standardized. The main dataset (`test_labeled.csv`) contains columns for subject, body, date, sender, and sentiment label.
+- **Sentiment Labeling:** Each message was labeled as Positive, Negative, or Neutral using the NLTK VADER sentiment analyzer. This process is automated in `model.py`.
+- **Feature Engineering:** Features such as message length, word count, and monthly message frequency were created to support analysis and modeling.
+- **EDA:** Visual and statistical exploration was performed to understand sentiment distributions, trends over time, and employee activity patterns.
+- **Scoring & Ranking:** Monthly sentiment scores were computed for each employee, and employees were ranked by their positive and negative contributions.
+- **Flight Risk Identification:** Employees sending 4+ negative messages in any rolling 30-day window were flagged as flight risks.
+- **Predictive Modeling:** A linear regression model was trained to predict monthly sentiment scores using engineered features.
+
+## 3. Key Findings from EDA
+- The majority of messages were labeled as Positive, with fewer Neutral and Negative messages.
+- Sentiment trends varied over time, with some months showing spikes in negative or positive sentiment.
+- A small subset of employees were responsible for the highest message volumes.
+- Visualizations (see `visualizations/`) provide insights into sentiment distribution and employee activity.
+
+## 4. Employee Scoring and Ranking
+- **Scoring:** Each message was assigned a score (+1 for Positive, -1 for Negative, 0 for Neutral). Monthly scores were aggregated per employee (`sentiment_scores.csv`).
+- **Ranking:** For each month, employees were ranked by their sentiment scores. The top three positive and negative employees were identified and reported (`rankings.csv`).
+- **Interpretation:** This ranking highlights both highly engaged and potentially disengaged employees, supporting targeted interventions.
+
+## 5. Flight Risk Identification
+- **Criteria:** An employee is flagged as a flight risk if they send 4 or more negative messages in any rolling 30-day window, regardless of their overall score.
+- **Outcomes:** The process identified a list of at-risk employees (`flight_risk_employees.csv`). This list can be used for further HR review and support.
+
+## 6. Predictive Model Overview and Evaluation
+- **Model:** A linear regression model was trained to predict monthly sentiment scores using features such as message count, average message length, and average word count.
+- **Evaluation:** Model performance was assessed using Mean Squared Error (MSE) and R-squared (R²) metrics. Feature importances were interpreted to understand which factors most influence sentiment.
+- **Findings:** The model provides a quantitative basis for forecasting sentiment trends and identifying key drivers of employee sentiment.
+
+## 7. Conclusion
+This workflow provides a robust, end-to-end solution for sentiment analysis, employee ranking, flight risk identification, and predictive modeling using email data. The approach is fully documented, reproducible, and extensible for future analysis.
+From the scatterplot in (model_performance.png), we can see that the linear model does a very good job in predicting the sentiment score. The red line shows perfect predictions, and it can be seen that all the points are relatively close to that line.
+Furthermore, there is no signs of clustering or outliers, the points are pretty evenly distributed. The R^2 is around 0.72 with an MSE around 3.33, meaning the model is very solid. 
+---
+
+**Supporting files:**
+- All code is in the `src/` directory.
+- Data outputs are in the `data/` directory.
+- Visualizations are in the `visualizations/` directory.
+- The main workflow and commentary are in `sentiment_analysis_workflow.ipynb`.
+
+For further details, refer to the notebook and scripts provided.
